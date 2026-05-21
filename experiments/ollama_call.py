@@ -3,23 +3,30 @@ import httpx
 llm_api = "http://localhost:11434/api/generate"
 llm_model = "qwen2.5:7b"
 
-data = {
-    "model": llm_model, 
-    "prompt": "Hello! How are you?", 
-    "stream": False,
-}
-
-r = httpx.post(llm_api, json=data)
-print(f"HTTP Status: {r.status_code}")
-r.raise_for_status() # Check this response
-
-response_data = r.json()
-
 def generate_text(prompt: str) -> str:
+    data = {
+        "model": llm_model,
+        "prompt": prompt,
+        "stream": False
+
+    }
     r = httpx.post(llm_api, json=data)
     r.raise_for_status()
-    return r.json()
+    generated_text = r.json()["response"]
 
-print(generate_text("Hello mate!"))
-# print(f"Raw JSON response: {response_data}")
-# print(f"response field: {response_data['response']}")
+    return generated_text
+
+def build_prompt(user_message: str) -> str:
+    prompt = f"""
+    You are a DevOps engineer. 
+    Give a clear answer to the user question.
+    User question: {user_message}
+    """
+    return prompt
+
+
+user_message = "Explain Kubernetes in 3 sentences."
+prompt = build_prompt(user_message)
+answer = generate_text(prompt)
+
+print(answer)
