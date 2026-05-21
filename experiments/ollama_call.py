@@ -18,11 +18,11 @@ def generate_text(prompt: str) -> str:
 
 def build_prompt(user_message: str) -> str:
     prompt = f"""
-    You are a DevOps engineer. 
-    Give a clear answer to the user question.
+    You are an assistant helping a DevOps engineer. 
+    Answer clearly and practically.
     User question: {user_message}
     """
-    return prompt
+    return prompt.strip()
 
 
 user_message = "Explain Kubernetes in 3 sentences."
