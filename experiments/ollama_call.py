@@ -3,12 +3,11 @@ import httpx
 llm_api = "http://localhost:11434/api/generate"
 llm_model = "qwen2.5:7b"
 
-def generate_text(prompt: str) -> str:
+def generate_text(prompt: str, model: str = llm_model) -> str:
     data = {
-        "model": llm_model,
+        "model": model,
         "prompt": prompt,
         "stream": False
-
     }
     r = httpx.post(llm_api, json=data)
     r.raise_for_status()
