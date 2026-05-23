@@ -1,19 +1,4 @@
-import httpx
-
-llm_api = "http://localhost:11434/api/generate"
-llm_model = "qwen2.5:7b"
-
-def generate_text(prompt: str, model: str = llm_model) -> str:
-    data = {
-        "model": model,
-        "prompt": prompt,
-        "stream": False
-    }
-    r = httpx.post(llm_api, json=data, timeout=120.0)
-    r.raise_for_status()
-    generated_text = r.json()["response"]
-
-    return generated_text
+from app.services.ollama_client import generate_text
 
 def build_prompt(user_message: str) -> str:
     prompt = f"""
